@@ -1,0 +1,30 @@
+<html>
+<body>
+    <h1>{{ department.name }} </h1>
+
+    <a href = '{{url_for('newInstrument', department_id = department.id) }}'>
+    Create New Item</a>
+    </br>
+    </br>
+    {% for i in instruments %}
+
+    </br>
+    {{i.name}}
+    </br>
+    {{i.description}}
+    </br>
+    {{i.instrument_family}}
+    </br>
+    {{i.owner}}
+    </br>
+    {{i.dollar_value}}
+    </br>
+
+   <a href='{{url_for('editInstrument', department_id = department.id, instrument_id=i.id)}}'>Edit</a>
+
+    </br>
+    <a href = '{{url_for('deleteInstrument', department_id = department.id, instrument_id = i.id )}}'>Delete</a>
+    </br>
+    {% endfor %}
+</body>
+</head>

@@ -1,0 +1,28 @@
+<html>
+<body>
+<h1>Enter New Instrument </h1>
+
+
+<form action="{{url_for('newInstrument', department_id = department_id)}}" method = 'post'>
+
+    <p>Name:</p>
+    <input type ='text' size='30' name='name'>
+
+    <p>Description:</p>
+    <input type ='text' size='30' name='description'>
+
+    <p>Instrument Family:</p>
+    <input type ='text' size='30' name='instrument_family'>
+
+    <p>Owner:</p>
+    <input type ='text' size='30' name='owner'>
+
+    <p>Value (in dollars):</p>
+    <input type ='text' size='30' name='dollar_value'>
+
+<input type='submit' value='Create'>
+
+</form>
+
+</body>
+</head>

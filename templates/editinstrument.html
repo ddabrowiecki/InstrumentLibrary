@@ -1,0 +1,24 @@
+<html>
+<body>
+<form action= "{{url_for('editInstrument', department_id = department_id, instrument_id=item.id)}}" method = 'POST'>
+
+<p>Name:</p>
+<input type = 'text' size='30' name = 'name' placeholder = '{{item.name}}'>
+
+<p>Description:</p>
+<input type = 'text' size='30' name = 'description' placeholder = '{{item.description}}'>
+
+<p>Instrument Family:</p>
+<input type = 'text' size='30' name = 'instrument_family' placeholder = '{{item.instrument_family}}'>
+
+<p>Owner:</p>
+<input type = 'text' size='30' name = 'owner' placeholder = '{{item.owner}}'>
+
+<p>Value (in dollars):</p>
+<input type = 'text' size='30' name = 'item.dollar_value' placeholder = '{{item.dollar_value}}'>
+
+<input type='submit' value='Edit'>
+</form>
+<a href= '{{url_for('populateDepartment', department_id= item.department_id)}}'>Cancel</a>
+</body>
+</html>

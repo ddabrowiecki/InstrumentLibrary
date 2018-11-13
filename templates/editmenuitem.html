@@ -1,0 +1,12 @@
+<html>
+<body>
+<form action= "{{url_for('editInstrument', department_id = department_id, menu_id=item.id)}}" method = 'POST'>
+
+<p>Name:</p>
+<input type = 'text' size='30' name = 'name' placeholder = '{{instruments.name}}'>
+
+<input type='submit' value='Edit'>
+</form>
+<a href= '{{url_for('departmentList', department_id= item.department_id)}}'>Cancel</a>
+</body>
+</html>
