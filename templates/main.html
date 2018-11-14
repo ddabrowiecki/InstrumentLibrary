@@ -1,8 +1,6 @@
 <html>
-
 <head>
-
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='instrumentlibrary.css') }}">
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='instrumentlibrary.css') }}">
 </head>
 
 <body>
@@ -23,24 +21,18 @@
     <div class="menu">
       <div class="menu-hamburger"></div>
     </div>
-    <section class="band band-d">
+    <section class="band band-b">
       <div class="band-container">
         <div class="band-inner">
           <p>
-            <h1> Are you sure you want to delete {{item.name}}? </h1>
-
-            <form action="{{ url_for('deleteInstrument', department_id=item.department_id, instrument_id=item.id)}}" method = 'post'>
-
-            <input type='submit', value = 'Delete'>
-
-            </form>
-
-            <a href = "{{ url_for('populateDepartment', department_id = item.department_id)}}"> Cancel </a>
+            <h1>Choose a department to see what musical instruments you can borrow!</h1>
+            </br>
+            </br>
           </p>
         </div>
       </div>
     </section>
-    <section class="band band-a">
+    <section class="band band-c">
       <div class="band-container">
         <div class="band-inner">
         </div>
@@ -49,5 +41,4 @@
   </div>
 </div>
 </body>
-
 </html>

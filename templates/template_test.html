@@ -8,12 +8,12 @@
   <div class="l-nav">
     <nav class="nav">
       <ul>
-        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 1)}}">Human Resources</a></li>
-        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 2)}}">Facilities</a></li>
-        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 3)}}">Engineering</a></li>
-        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 4)}}">Security</a></li>
-        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 5)}}">Recruiting</a></li>
-        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 6)}}">Customer Support</a></li>
+        <li class="nav-primary"><a href="#">Human Resources</a></li>
+        <li class="nav-primary"><a href="#">Facilities</a></li>
+        <li class="nav-primary"><a href="#">Engineering</a></li>
+        <li class="nav-primary"><a href="#">Security</a></li>
+        <li class="nav-secondary"><a href="#">Recruiting</a></li>
+        <li class="nav-secondary"><a href="#">Customer Support</a></li>
       </ul>
     </nav>
   </div>
@@ -26,7 +26,7 @@
         <div class="band-inner">
           <p>
             <a href = '{{url_for('newInstrument', department_id = department.id) }}'>
-                Add New Instrument</a>
+                Create New Item</a>
                 </br>
                 </br>
                 {% for i in instruments %}
@@ -57,7 +57,6 @@
         <div class="band-inner">
         </div>
       </div>
-    </section>
   </div>
 </div>
 </body>

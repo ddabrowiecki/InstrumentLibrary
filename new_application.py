@@ -19,12 +19,7 @@ def departmentJSON(department_id):
 
 @app.route('/departments/')
 def departmentList():
-    department = session.query(Department).all()
-    output = ''
-    for i in department:
-        output += i.name
-        output += '</br>'
-    return output
+    return render_template('main.html')
 
 @app.route('/departments/<int:department_id>/')
 def populateDepartment(department_id):
@@ -37,7 +32,6 @@ def populateDepartment(department_id):
 def newInstrument(department_id):
     if request.method == 'POST':
         newInstrument = Instrument(name=request.form['name'],description=request.form['description'], instrument_family=request.form['instrument_family'], owner=request.form['owner'], dollar_value=request.form['dollar_value'], department_id=department_id)
-    # 
         session.add(newInstrument)
         session.commit()
         return redirect(url_for('populateDepartment', department_id=department_id))
