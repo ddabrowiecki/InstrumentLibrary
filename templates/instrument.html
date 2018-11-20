@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+
 <html>
 <head>
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='instrumentlibrary.css') }}">
@@ -34,13 +36,13 @@
                 </br>
                 <h1>{{i.name}}</h1>
                 </br>
-                {{i.description}}
+                Description: {{i.description}}
                 </br>
-                {{i.instrument_family}}
+                Instrument Family: {{i.instrument_family}}
                 </br>
-                {{i.owner}}
+                Owner: {{i.owner}}
                 </br>
-                {{i.dollar_value}}
+                Value (in dollars): {{i.dollar_value}}
                 </br>
                 <a href='{{url_for('editInstrument', department_id = department.id, instrument_id=i.id)}}'>Edit</a>
 

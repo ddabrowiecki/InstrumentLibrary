@@ -1,28 +1,67 @@
+<!DOCTYPE html>
+
 <html>
-<body>
-<h1>Enter New Instrument </h1>
 
 
-<form action="{{url_for('newInstrument', department_id = department_id)}}" method = 'post'>
+<head>
 
-    <p>Name:</p>
-    <input type ='text' size='30' name='name'>
-
-    <p>Description:</p>
-    <input type ='text' size='30' name='description'>
-
-    <p>Instrument Family:</p>
-    <input type ='text' size='30' name='instrument_family'>
-
-    <p>Owner:</p>
-    <input type ='text' size='30' name='owner'>
-
-    <p>Value (in dollars):</p>
-    <input type ='text' size='30' name='dollar_value'>
-
-<input type='submit' value='Create'>
-
-</form>
-
-</body>
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='instrumentlibrary.css') }}">
 </head>
+
+<body>
+<div class="l-site">
+  <div class="l-nav">
+    <nav class="nav">
+      <ul>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 1)}}">Human Resources</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 2)}}">Facilities</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 3)}}">Engineering</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 4)}}">Security</a></li>
+        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 5)}}">Recruiting</a></li>
+        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 6)}}">Customer Support</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="l-page">
+    <div class="menu">
+      <div class="menu-hamburger"></div>
+    </div>
+    <section class="band band-b">
+      <div class="band-container">
+        <div class="band-inner">
+          <h1>Enter New Instrument</h1>
+            <form action="{{url_for('newInstrument', department_id = department_id)}}" method = 'post'>
+
+                <p>Name:</p>
+                <input type ='text' size='30' name='name'>
+
+                <p>Description:</p>
+                <input type ='text' size='30' name='description'>
+
+                <p>Instrument Family:</p>
+                <input type ='text' size='30' name='instrument_family'>
+
+                <p>Owner:</p>
+                <input type ='text' size='30' name='owner'>
+
+                <p>Value (in dollars):</p>
+                <input type ='text' size='30' name='dollar_value'>
+
+            <input type='submit' value='Create'>
+
+            </form>
+            <a href= '{{url_for('populateDepartment', department_id= department_id)}}'>Cancel</a>
+          </p>
+        </div>
+      </div>
+    </section>
+    <section class="band band-a">
+      <div class="band-container">
+        <div class="band-inner">
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+</body>
+</html>
