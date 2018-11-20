@@ -2,7 +2,7 @@
 
 <html>
 <head>
-
+<!--Stylesheet downloaded from https://colorlib.com/wp/css-layouts/ Beautiful CSS3 Layout by Adrian Gyuricska-->
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='instrumentlibrary.css') }}">
 </head>
 
@@ -15,8 +15,8 @@
         <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 2)}}">Facilities</a></li>
         <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 3)}}">Engineering</a></li>
         <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 4)}}">Security</a></li>
-        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 5)}}">Recruiting</a></li>
-        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 6)}}">Customer Support</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 5)}}">Recruiting</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 6)}}">Customer Support</a></li>
       </ul>
     </nav>
   </div>
@@ -44,7 +44,7 @@
             <input type = 'text' size='30' name = 'owner' placeholder = '{{item.owner}}'>
 
             <p>Value (in dollars):</p>
-            <input type = 'text' size='30' name = 'item.dollar_value' placeholder = '{{item.dollar_value}}'>
+            <input type = 'text' size='30' name = 'dollar_value' placeholder = '{{item.dollar_value}}'>
 
             <input type='submit' value='Edit'>
             </form>

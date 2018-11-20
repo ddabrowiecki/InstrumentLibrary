@@ -14,6 +14,7 @@ import json
 from flask import make_response
 import requests
 
+#Create instance of the Flask app
 app = Flask(__name__)
 
 CLIENT_ID = json.loads(
@@ -26,6 +27,7 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
+#Create a login page for users to enter their credentials
 @app.route('/login')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
@@ -116,6 +118,7 @@ def gconnect():
     print "done!"
     return output
 
+#The following code will log out a user who is already logged in
 @app.route('/gdisconnect')
 def gdisconnect():
     access_token = login_session.get('access_token')
@@ -152,10 +155,15 @@ def departmentJSON(department_id):
     instruments = session.query(Instrument).filter_by(department_id=department_id).all()
     return jsonify(Instrument=[i.serialize for i in instruments])
 
+#Create main page to list out all departments in the company
 @app.route('/departments/')
 def departmentList():
-    return render_template('main.html')
+    if 'username' not in login_session:
+        return redirect('/login')
+    else:
+        return render_template('main.html')
 
+#Create page to list out all instruments available per department
 @app.route('/departments/<int:department_id>/')
 def populateDepartment(department_id):
     department = session.query(Department).filter_by(id = department_id).one()
@@ -165,8 +173,6 @@ def populateDepartment(department_id):
 #Function to add an instrument to the library
 @app.route('/departments/<int:department_id>/new', methods = ['GET', 'POST'])
 def newInstrument(department_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     if request.method == 'POST':
         newInstrument = Instrument(name=request.form['name'],description=request.form['description'], instrument_family=request.form['instrument_family'], owner=request.form['owner'], dollar_value=request.form['dollar_value'], department_id=department_id)
         session.add(newInstrument)
@@ -178,8 +184,6 @@ def newInstrument(department_id):
 #Function to edit an instrument in the library
 @app.route('/departments/<int:department_id>/<int:instrument_id>/edit', methods=['GET', 'POST'])
 def editInstrument(department_id, instrument_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     editedInstrument = session.query(Instrument).filter_by(id=instrument_id).one()
     if request.method == 'POST':
         if request.form['name']:
@@ -190,18 +194,17 @@ def editInstrument(department_id, instrument_id):
             editedInstrument.instrument_family = request.form['instrument_family']
         if request.form['owner']:
             editedInstrument.owner = request.form['owner']
-        #if request.form['dollar_value']:
-        #    editedInstrument.dollar_value = request.form['dollar_value']
+        if request.form['dollar_value']:
+            editedInstrument.dollar_value = request.form['dollar_value']
         session.add(editedInstrument)
         session.commit()
         return redirect(url_for('populateDepartment', department_id=department_id))
     else:
         return render_template('editInstrument.html', department_id=department_id, instrument_id=instrument_id, item=editedInstrument)
 
+#Function to delete an instrument from the database
 @app.route('/departments/<int:department_id>/<int:instrument_id>/delete', methods=['GET', 'POST'])
 def deleteInstrument(department_id, instrument_id):
-    if 'username' not in login_session:
-        return redirect('/login')
     itemToDelete = session.query(Instrument).filter_by(id=instrument_id).one()
     if request.method == 'POST':
         session.delete(itemToDelete)
@@ -209,10 +212,6 @@ def deleteInstrument(department_id, instrument_id):
         return redirect(url_for('populateDepartment', department_id=department_id))
     else:
         return render_template('deleteinstrument.html', item=itemToDelete)
-
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
 
 if __name__ == '__main__':
     app.secret_key = 'super_secret_key'

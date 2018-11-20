@@ -6,24 +6,51 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
 <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+<!--Stylesheet downloaded from https://colorlib.com/wp/css-layouts/ Beautiful CSS3 Layout by Adrian Gyuricska-->
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='instrumentlibrary.css') }}">
 
 </head>
 
 <body>
+<div class="l-site">
+  <div class="l-nav">
+    <nav class="nav">
+      <ul>
+        <li class="nav-secondary"><a>Human Resources</a></li>
+        <li class="nav-secondary"><a>Facilities</a></li>
+        <li class="nav-secondary"><a>Engineering</a></li>
+        <li class="nav-secondary"><a>Security</a></li>
+        <li class="nav-secondary"><a>Recruiting</a></li>
+        <li class="nav-secondary"><a>Customer Support</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="l-page">
+    <div class="menu">
+      <div class="menu-hamburger"></div>
+    </div>
+        <section class="band band-c">
+          <div class="band-container">
+            <div class="band-inner">
 
-<div id="signinButton">
-          <span class="g-signin"
-            data-scope="openid email"
-            data-clientid="600887848934-f8brnt45h16jrqn0n1rett9bv7hbmjrl.apps.googleusercontent.com"
-            data-redirecturi="postmessage"
-            data-accesstype="offline"
-            data-cookiepolicy="single_host_origin"
-            data-callback="signInCallback"
-            data-approvalprompt="force">
-          </span>
-        </div>
+                <div id="signinButton">
+                    <h1>Welcome to the Acme Corp Internal Musical Instrument Library</h1>
+                        <h2>Please login using Google sign-in</h2>
+                          <span class="g-signin"
+                            data-scope="openid email"
+                            data-clientid="600887848934-f8brnt45h16jrqn0n1rett9bv7hbmjrl.apps.googleusercontent.com"
+                            data-redirecturi="postmessage"
+                            data-accesstype="offline"
+                            data-cookiepolicy="single_host_origin"
+                            data-callback="signInCallback"
+                            data-approvalprompt="force">
+                          </span>
+                        </div>
 
-<div id="result"></div>
+                <div id="result"></div>
+            </div>
+          </div>
+        </section>
 
 <script>
 function signInCallback(authResult) {
@@ -40,16 +67,15 @@ function signInCallback(authResult) {
         if (result) {
           $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
          setTimeout(function() {
+            //Redirect to the main page of the application
           window.location.href = "/departments/";
          }, 4000);
-          
       } else if (authResult['error']) {
     console.log('There was an error: ' + authResult['error']);
   } else {
         $('#result').html('Failed to make a server-side call. Check your configuration and console.');
          }
       }
-      
   }); } }
 </script>
 

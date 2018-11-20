@@ -4,7 +4,7 @@
 
 
 <head>
-
+<!--Stylesheet downloaded from https://colorlib.com/wp/css-layouts/ Beautiful CSS3 Layout by Adrian Gyuricska-->
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='instrumentlibrary.css') }}">
 </head>
 
@@ -17,8 +17,8 @@
         <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 2)}}">Facilities</a></li>
         <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 3)}}">Engineering</a></li>
         <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 4)}}">Security</a></li>
-        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 5)}}">Recruiting</a></li>
-        <li class="nav-secondary"><a href="{{ url_for('populateDepartment', department_id = 6)}}">Customer Support</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 5)}}">Recruiting</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 6)}}">Customer Support</a></li>
       </ul>
     </nav>
   </div>
