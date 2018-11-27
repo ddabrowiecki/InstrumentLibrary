@@ -14,7 +14,7 @@ import json
 from flask import make_response
 import requests
 
-#Create instance of the Flask app
+# Create instance of the Flask app
 app = Flask(__name__)
 
 CLIENT_ID = json.loads(
@@ -27,13 +27,16 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
-#Create a login page for users to enter their credentials
+# Create a login page for users to enter their credentials
+
+
 @app.route('/login')
 def showLogin():
     state = ''.join(random.choice(string.ascii_uppercase + string.digits)
                     for x in xrange(32))
     login_session['state'] = state
-    return render_template('login.html',STATE=state)
+    return render_template('login.html', STATE=state)
+
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
@@ -103,10 +106,9 @@ def gconnect():
 
     data = answer.json()
 
-    #Resolve issue here with help from colleague's code (data for name was being input improperly) https://github.com/mvcman/My-Item-Catalog-Employee/blob/mandy/project.py
+    # Resolve issue here with help from colleague's code (data for name was being input improperly) https://github.com/mvcman/My-Item-Catalog-Employee/blob/mandy/project.py
     name = data['email'].split("@")
     login_session['username'] = name[0]
-    #login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
     output = ''
@@ -117,11 +119,14 @@ def gconnect():
     print "done!"
     return output
 
+
 @app.route('/logout')
 def showDisconnect():
     return render_template('disconnect.html')
 
-#The following code will log out a user who is already logged in
+# The following code will log out a user who is already logged in
+
+
 @app.route('/gdisconnect')
 def gdisconnect():
     if 'username' not in login_session:
@@ -149,45 +154,57 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return render_template('disconnect.html', response='Failed to revoke token for given user. Redirecting...')
 
-#JSON endpoint for full instrument list for one department
+# JSON endpoint for full instrument list for one department
+
+
 @app.route('/departments/<int:department_id>/JSON')
 def departmentJSON(department_id):
     department = session.query(Department).filter_by(id=department_id).one()
     instruments = session.query(Instrument).filter_by(department_id=department_id).all()
     return jsonify(Instrument=[i.serialize for i in instruments])
 
-#JSON endpoint for each individual instrument
+# JSON endpoint for each individual instrument
+
+
 @app.route('/instrument-<int:instrument_id>/JSON')
 def instrumentJSON(instrument_id):
     instrument = session.query(Instrument).filter_by(id=instrument_id).one()
     return jsonify(Instrument=[instrument.serialize])
 
-#Create main page to list out all departments in the company
+# Create main page to list out all departments in the company
+
+
 @app.route('/departments/')
 def departmentList():
     return render_template('main.html')
 
-#Create page to list out all instruments available per department
+# Create page to list out all instruments available per department
+
+
 @app.route('/departments/<int:department_id>/')
 def populateDepartment(department_id):
-    department = session.query(Department).filter_by(id = department_id).one()
-    instruments = session.query(Instrument).filter_by(department_id = department_id)
-    return render_template('instrument.html', department = department, instruments = instruments)
+    department = session.query(Department).filter_by(id=department_id).one()
+    instruments = session.query(Instrument).filter_by(department_id=department_id)
+    return render_template('instrument.html', department=department, instruments=instruments)
 
-#Function to add an instrument to the library
-@app.route('/departments/<int:department_id>/new', methods = ['GET', 'POST'])
+# Function to add an instrument to the library
+
+
+@app.route('/departments/<int:department_id>/new', methods=['GET', 'POST'])
 def newInstrument(department_id):
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newInstrument = Instrument(name=request.form['name'],description=request.form['description'], instrument_family=request.form['instrument_family'], owner=request.form['owner'], dollar_value=request.form['dollar_value'], department_id=department_id)
+        newInstrument = Instrument(name=request.form['name'], description=request.form['description'], instrument_family=request.form['instrument_family'], owner=request.form['owner'], dollar_value=request.form['dollar_value'], department_id=department_id)
         session.add(newInstrument)
         session.commit()
         return redirect(url_for('populateDepartment', department_id=department_id))
     else:
         return render_template('new_instrument.html', department_id=department_id)
 
-#Function to edit an instrument in the library
+# Function to edit an instrument in the library
+
+
 @app.route('/departments/<int:department_id>/<int:instrument_id>/edit', methods=['GET', 'POST'])
 def editInstrument(department_id, instrument_id):
     if 'username' not in login_session:
@@ -210,7 +227,9 @@ def editInstrument(department_id, instrument_id):
     else:
         return render_template('editInstrument.html', department_id=department_id, instrument_id=instrument_id, item=editedInstrument)
 
-#Function to delete an instrument from the database
+# Function to delete an instrument from the database
+
+
 @app.route('/departments/<int:department_id>/<int:instrument_id>/delete', methods=['GET', 'POST'])
 def deleteInstrument(department_id, instrument_id):
     if 'username' not in login_session:
