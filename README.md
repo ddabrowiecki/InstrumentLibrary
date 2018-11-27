@@ -1,4 +1,4 @@
-# InstrumentLibrary
+# Acme Corp Instrument Library
 This web application serves as a v1 minimum viable product intended to track all musical instruments owned by employees at Acme Corp, categorized by department.  At a recent company event, several of the employees learned that there were quite a few musicians among them, but not everyone owned instruments.  In order to allow everyone the ability to jam, the engineering department decided to build this Instrument Library to keep track of all instruments available to borrow.
 
 Note: Acme Corp employees all have Google accounts.  In order to create, edit or delete an instrument from the library, you will need to be authenticated as a Google user to proceed.  In order to log in, click the "login" button at the bottom left of any page.
