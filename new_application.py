@@ -103,17 +103,19 @@ def gconnect():
 
     data = answer.json()
 
-    login_session['username'] = data['name']
-    login_session['picture'] = data['picture']
+    #Resolve issue here with help from colleague's code (data for name was being input improperly) https://github.com/mvcman/My-Item-Catalog-Employee/blob/mandy/project.py
+    name = data['email'].split("@")
+    login_session['username'] = name[0]
+    #login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
     output += '!</h1>'
-    output += '<img src="'
-    output += login_session['picture']
-    output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
+    #output += '<img src="'
+    #output += login_session['picture']
+    #output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
@@ -121,26 +123,22 @@ def gconnect():
 #The following code will log out a user who is already logged in
 @app.route('/gdisconnect')
 def gdisconnect():
-    access_token = login_session.get('access_token')
+    access_token = login_session['access_token']
     if access_token is None:
         print 'Access Token is None'
         response = make_response(json.dumps('Current user not connected.'), 401)
         response.headers['Content-Type'] = 'application/json'
         return response
-    print 'In gdisconnect access token is %s', access_token
-    print 'User name is: '
-    print login_session['username']
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
-    print 'result is '
     print result
     if result['status'] == '200':
         del login_session['access_token']
         del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
-        del login_session['picture']
+        #del login_session['picture']
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
@@ -149,19 +147,23 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
 
-@app.route('/departments/<int:department_id>/instrument_list/JSON')
+#JSON endpoint for full instrument list for one department
+@app.route('/departments/<int:department_id>/JSON')
 def departmentJSON(department_id):
     department = session.query(Department).filter_by(id=department_id).one()
     instruments = session.query(Instrument).filter_by(department_id=department_id).all()
     return jsonify(Instrument=[i.serialize for i in instruments])
 
+#JSON endpoint for each individual instrument
+@app.route('/instrument-<int:instrument_id>/JSON')
+def instrumentJSON(instrument_id):
+    instrument = session.query(Instrument).filter_by(id=instrument_id).one()
+    return jsonify(Instrument=[instrument.serialize])
+
 #Create main page to list out all departments in the company
 @app.route('/departments/')
 def departmentList():
-    if 'username' not in login_session:
-        return redirect('/login')
-    else:
-        return render_template('main.html')
+    return render_template('main.html')
 
 #Create page to list out all instruments available per department
 @app.route('/departments/<int:department_id>/')
@@ -173,6 +175,8 @@ def populateDepartment(department_id):
 #Function to add an instrument to the library
 @app.route('/departments/<int:department_id>/new', methods = ['GET', 'POST'])
 def newInstrument(department_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
         newInstrument = Instrument(name=request.form['name'],description=request.form['description'], instrument_family=request.form['instrument_family'], owner=request.form['owner'], dollar_value=request.form['dollar_value'], department_id=department_id)
         session.add(newInstrument)
@@ -184,6 +188,8 @@ def newInstrument(department_id):
 #Function to edit an instrument in the library
 @app.route('/departments/<int:department_id>/<int:instrument_id>/edit', methods=['GET', 'POST'])
 def editInstrument(department_id, instrument_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     editedInstrument = session.query(Instrument).filter_by(id=instrument_id).one()
     if request.method == 'POST':
         if request.form['name']:
@@ -205,6 +211,8 @@ def editInstrument(department_id, instrument_id):
 #Function to delete an instrument from the database
 @app.route('/departments/<int:department_id>/<int:instrument_id>/delete', methods=['GET', 'POST'])
 def deleteInstrument(department_id, instrument_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     itemToDelete = session.query(Instrument).filter_by(id=instrument_id).one()
     if request.method == 'POST':
         session.delete(itemToDelete)

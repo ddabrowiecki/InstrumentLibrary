@@ -16,12 +16,13 @@
   <div class="l-nav">
     <nav class="nav">
       <ul>
-        <li class="nav-secondary"><a>Human Resources</a></li>
-        <li class="nav-secondary"><a>Facilities</a></li>
-        <li class="nav-secondary"><a>Engineering</a></li>
-        <li class="nav-secondary"><a>Security</a></li>
-        <li class="nav-secondary"><a>Recruiting</a></li>
-        <li class="nav-secondary"><a>Customer Support</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 1)}}">Human Resources</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 2)}}">Facilities</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 3)}}">Engineering</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 4)}}">Security</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 5)}}">Recruiting</a></li>
+        <li class="nav-primary"><a href="{{ url_for('populateDepartment', department_id = 6)}}">Customer Support</a></li>
+        <li class="nav-secondary"><a href="{{ url_for('departmentList')}}">Back to Main Page</a></li>
       </ul>
     </nav>
   </div>
@@ -68,8 +69,8 @@ function signInCallback(authResult) {
           $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
          setTimeout(function() {
             //Redirect to the main page of the application
-          window.location.href = "/departments/";
-         }, 4000);
+          window.location.href = "/departments";
+         }, 2000);
       } else if (authResult['error']) {
     console.log('There was an error: ' + authResult['error']);
   } else {
