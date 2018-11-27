@@ -113,16 +113,19 @@ def gconnect():
     output += '<h1>Welcome, '
     output += login_session['username']
     output += '!</h1>'
-    #output += '<img src="'
-    #output += login_session['picture']
-    #output += ' " style = "width: 300px; height: 300px;border-radius: 150px;-webkit-border-radius: 150px;-moz-border-radius: 150px;"> '
     flash("you are now logged in as %s" % login_session['username'])
     print "done!"
     return output
 
+@app.route('/logout')
+def showDisconnect():
+    return render_template('disconnect.html')
+
 #The following code will log out a user who is already logged in
 @app.route('/gdisconnect')
 def gdisconnect():
+    if 'username' not in login_session:
+        return render_template('disconnect.html', response='Current user not connected. Redirecting...')
     access_token = login_session['access_token']
     if access_token is None:
         print 'Access Token is None'
@@ -138,14 +141,13 @@ def gdisconnect():
         del login_session['gplus_id']
         del login_session['username']
         del login_session['email']
-        #del login_session['picture']
         response = make_response(json.dumps('Successfully disconnected.'), 200)
         response.headers['Content-Type'] = 'application/json'
-        return response
+        return render_template('disconnect.html', response='Successfully disconnected. Redirecting...')
     else:
         response = make_response(json.dumps('Failed to revoke token for given user.', 400))
         response.headers['Content-Type'] = 'application/json'
-        return response
+        return render_template('disconnect.html', response='Failed to revoke token for given user. Redirecting...')
 
 #JSON endpoint for full instrument list for one department
 @app.route('/departments/<int:department_id>/JSON')
