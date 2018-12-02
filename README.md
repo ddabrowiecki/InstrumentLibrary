@@ -24,7 +24,7 @@ Note: Acme Corp employees all have Google accounts.  In order to create, edit or
 
 3.  Now you are ready to run the program.  Make sure you have changed directory to the folder you created for Vagrant, and type `vagrant ssh`.  This will log you into the virtual machine.  Then type the command `python new_application.py`.  If you do not have Python installed, please go [here](https://edu.google.com/openonline/course-builder/docs/1.10/set-up-course-builder/check-for-python.html) to install Python.
 
-4.  Once you see that the program is running, please access "http://localhost:5000", and you should see the main page of the application.  If you are experiencing an error, try to adjust the port at the end of the URL (the last 4 digits).  Other commonly used ports are 8080 and 8000.
+4.  Once you see that the program is running, please access "http://localhost:5000/departments", and you should see the main page of the application.  If you are experiencing an error, try to adjust the port at the end of the URL (the last 4 digits).  Other commonly used ports are 8080 and 8000.
 
 5.  Now, go explore!
 
