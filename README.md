@@ -41,7 +41,6 @@ Note: Acme Corp employees all have Google accounts.  In order to create, edit or
 # Special Thanks to
 
 - Adrian Gyuricska - CSS Template
-- Mandar Waghe (github: mvcman) - Posted code helped with debugging my program
 
 # Authors
 
