@@ -99,8 +99,8 @@ def gconnect():
     stored_access_token = login_session.get('access_token')
     stored_gplus_id = login_session.get('gplus_id')
     if stored_access_token is not None and gplus_id == stored_gplus_id:
-        response = \
-        make_response(json.dumps('Current user is already connected.'), 200)
+        response = make_response(
+            json.dumps('Current user is already connected.'), 200)
         response.headers['Content-Type'] = 'application/json'
         return response
 
@@ -179,7 +179,7 @@ def gdisconnect():
         response.headers['Content-Type'] = 'application/json'
         return response
     url = 'https://accounts.google.com/o/oauth2/revoke?token=%s' % \
-    login_session['access_token']
+        login_session['access_token']
     h = httplib2.Http()
     result = h.request(url, 'GET')[0]
     print result
@@ -206,9 +206,9 @@ def gdisconnect():
 @app.route('/departments/<int:department_id>/JSON')
 def departmentJSON(department_id):
     department = session.query(Department).filter_by(id=department_id) \
-    .one_or_none()
+        .one_or_none()
     instruments = session.query(Instrument) \
-    .filter_by(department_id=department_id).all()
+        .filter_by(department_id=department_id).all()
     return jsonify(Instrument=[i.serialize for i in instruments])
 
 # JSON endpoint for each individual instrument
@@ -217,7 +217,7 @@ def departmentJSON(department_id):
 @app.route('/instrument-<int:instrument_id>/JSON')
 def instrumentJSON(instrument_id):
     instrument = session.query(Instrument).filter_by(id=instrument_id) \
-    .one_or_none()
+        .one_or_none()
     return jsonify(Instrument=[instrument.serialize])
 
 # Create main page to list out all departments in the company
@@ -227,9 +227,11 @@ def instrumentJSON(instrument_id):
 def departmentList():
     return render_template('main.html')
 
+
 @app.route('/redirect')
 def redirectNonLoggedInUser():
     return render_template('redirect_page.html')
+
 
 # Create page to list out all instruments available per department
 
@@ -237,9 +239,9 @@ def redirectNonLoggedInUser():
 @app.route('/departments/<int:department_id>/')
 def populateDepartment(department_id):
     department = session.query(Department) \
-    .filter_by(id=department_id).one_or_none()
+        .filter_by(id=department_id).one_or_none()
     instruments = session.query(Instrument) \
-    .filter_by(department_id=department_id)
+        .filter_by(department_id=department_id)
     return render_template('instrument.html',
                            department=department,
                            instruments=instruments)
@@ -251,7 +253,8 @@ def populateDepartment(department_id):
 def newInstrument(department_id):
     if 'username' not in login_session:
         return redirect('/login')
-    department = session.query(Department).filter_by(id=department_id).one_or_none()
+    department = session.query(Department) \
+        .filter_by(id=department_id).one_or_none()
     if request.method == 'POST':
         newInstrument = Instrument(name=request.form['name'],
                                    description=request.form['description'],
@@ -278,7 +281,7 @@ def editInstrument(department_id, instrument_id):
     if 'username' not in login_session:
         return redirect('/login')
     editedInstrument = session.query(Instrument) \
-    .filter_by(id=instrument_id).one_or_none()
+        .filter_by(id=instrument_id).one_or_none()
     if login_session['user_id'] != editedInstrument.user_id:
         return redirect('/redirect')
     if request.method == 'POST':
@@ -288,7 +291,7 @@ def editInstrument(department_id, instrument_id):
             editedInstrument.description = request.form['description']
         if request.form['instrument_family']:
             editedInstrument.instrument_family = \
-            request.form['instrument_family']
+                request.form['instrument_family']
         if request.form['owner']:
             editedInstrument.owner = request.form['owner']
         if request.form['dollar_value']:
@@ -312,7 +315,7 @@ def deleteInstrument(department_id, instrument_id):
     if 'username' not in login_session:
         return redirect('/login')
     itemToDelete = session.query(Instrument).filter_by(id=instrument_id) \
-    .one_or_none()
+        .one_or_none()
     if login_session['user_id'] != itemToDelete.user_id:
         return redirect('/redirect')
     if request.method == 'POST':

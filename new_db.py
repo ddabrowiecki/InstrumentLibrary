@@ -16,6 +16,7 @@ db_session = scoped_session(sessionmaker(autocommit=False,
 Base = declarative_base()
 Base.query = db_session.query_property()
 
+
 class User(Base):
     __tablename__ = 'user'
 
@@ -23,6 +24,7 @@ class User(Base):
     name = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
     picture = Column(String(250))
+
 
 class Department(Base):
     __tablename__ = 'department'
